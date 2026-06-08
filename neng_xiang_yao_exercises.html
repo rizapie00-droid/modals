@@ -1,0 +1,230 @@
+
+<style>
+  .ex-label { font-size: 12px; font-weight: 500; letter-spacing: 0.06em; color: var(--color-text-secondary); margin-bottom: 12px; }
+  .sentence-block { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); padding: 14px 18px; margin-bottom: 10px; }
+  .cn-row { display: flex; align-items: center; gap: 8px; margin-bottom: 10px; }
+  .cn-text { font-size: 20px; font-weight: 500; color: var(--color-text-primary); }
+  .py-text { font-size: 13px; color: var(--color-text-secondary); margin-bottom: 10px; }
+  .btn-row { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 10px; }
+  .word-btn { font-size: 15px; padding: 4px 16px; border-radius: 99px; border: 1.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-primary); cursor: pointer; transition: background 0.15s, color 0.15s; }
+  .word-btn:hover { background: var(--color-background-secondary); }
+  .word-btn.selected-neng { background: #E6F1FB; border-color: #185FA5; color: #185FA5; }
+  .word-btn.selected-xiang { background: #E1F5EE; border-color: #0F6E56; color: #0F6E56; }
+  .word-btn.selected-yao { background: #FAECE7; border-color: #993C1D; color: #993C1D; }
+  .explanation { font-size: 13px; border-radius: var(--border-radius-md); padding: 10px 14px; display: none; line-height: 1.6; }
+  .expl-neng { background: #E6F1FB; color: #0C447C; }
+  .expl-xiang { background: #E1F5EE; color: #085041; }
+  .expl-yao { background: #FAECE7; color: #712B13; }
+  .expl-wrong { background: var(--color-background-secondary); color: var(--color-text-secondary); }
+  .slot { display: inline-block; min-width: 48px; text-align: center; border-bottom: 2px solid var(--color-border-secondary); color: var(--color-text-secondary); font-size: 20px; padding: 0 4px; cursor: pointer; }
+  .slot.filled-neng { border-color: #185FA5; color: #185FA5; font-weight: 500; }
+  .slot.filled-xiang { border-color: #0F6E56; color: #0F6E56; font-weight: 500; }
+  .slot.filled-yao { border-color: #993C1D; color: #993C1D; font-weight: 500; }
+  .check-btn { font-size: 13px; padding: 5px 16px; border-radius: var(--border-radius-md); border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-primary); cursor: pointer; margin-top: 6px; }
+  .check-btn:hover { background: var(--color-background-secondary); }
+  .result-msg { font-size: 13px; margin-top: 8px; padding: 8px 12px; border-radius: var(--border-radius-md); display: none; line-height: 1.5; }
+  .result-ok { background: #E1F5EE; color: #085041; }
+  .result-err { background: #FAECE7; color: #712B13; }
+  .word-chip { display: inline-block; font-size: 15px; padding: 4px 16px; border-radius: 99px; border: 1.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-primary); cursor: pointer; margin: 3px; user-select: none; }
+  .word-chip:hover { background: var(--color-background-secondary); }
+  .word-chip.used { opacity: 0.3; cursor: default; pointer-events: none; }
+  .divider { border: none; border-top: 0.5px solid var(--color-border-tertiary); margin: 20px 0; }
+</style>
+
+<h2 class="sr-only">Вправи на розрізнення 能, 想, 要 для рівня HSK 1</h2>
+
+<div style="padding: 4px 0 16px;">
+
+  <div class="ex-label">Вправа 1 — як змінюється зміст?</div>
+  <p style="font-size:13px; color:var(--color-text-secondary); margin: 0 0 14px;">Натисни на кожне слово і дізнайся, що воно означає в цьому реченні.</p>
+
+  <div class="sentence-block" id="s1">
+    <div class="py-text">Wǒ ___ chī miàntiáo.</div>
+    <div class="cn-row">
+      <span class="cn-text">我</span>
+      <span class="cn-text" style="color:var(--color-text-secondary)">___</span>
+      <span class="cn-text">吃面条。</span>
+    </div>
+    <div class="btn-row">
+      <button class="word-btn" onclick="showExpl('s1','neng')">能 néng</button>
+      <button class="word-btn" onclick="showExpl('s1','xiang')">想 xiǎng</button>
+      <button class="word-btn" onclick="showExpl('s1','yao')">要 yào</button>
+    </div>
+    <div class="explanation expl-neng" id="s1-neng">我<b>能</b>吃面条。— Я <b>можу</b> їсти локшину. (Наприклад, немає алергії, дієта дозволяє.)</div>
+    <div class="explanation expl-xiang" id="s1-xiang">我<b>想</b>吃面条。— Я <b>хочу</b> їсти локшину. (Просто є бажання прямо зараз.)</div>
+    <div class="explanation expl-yao" id="s1-yao">我<b>要</b>吃面条。— Я <b>буду</b> їсти локшину. (Рішення прийнято — говорю офіціанту.)</div>
+  </div>
+
+  <div class="sentence-block" id="s2">
+    <div class="py-text">Tā ___ shuìjiào.</div>
+    <div class="cn-row">
+      <span class="cn-text">他</span>
+      <span class="cn-text" style="color:var(--color-text-secondary)">___</span>
+      <span class="cn-text">睡觉。</span>
+    </div>
+    <div class="btn-row">
+      <button class="word-btn" onclick="showExpl('s2','neng')">能 néng</button>
+      <button class="word-btn" onclick="showExpl('s2','xiang')">想 xiǎng</button>
+      <button class="word-btn" onclick="showExpl('s2','yao')">要 yào</button>
+    </div>
+    <div class="explanation expl-neng" id="s2-neng">他<b>能</b>睡觉。— Він <b>може</b> спати. (Умови дозволяють — тихо, є ліжко.)</div>
+    <div class="explanation expl-xiang" id="s2-xiang">他<b>想</b>睡觉。— Йому <b>хочеться</b> спати. (Хоче, але ще не спить — внутрішній стан.)</div>
+    <div class="explanation expl-yao" id="s2-yao">他<b>要</b>睡觉。— Він <b>іде</b> спати. (Вже лягає — або хтось каже йому йти спати.)</div>
+  </div>
+
+  <div class="sentence-block" id="s3">
+    <div class="py-text">Nǐ ___ hē shuǐ ma?</div>
+    <div class="cn-row">
+      <span class="cn-text">你</span>
+      <span class="cn-text" style="color:var(--color-text-secondary)">___</span>
+      <span class="cn-text">喝水吗？</span>
+    </div>
+    <div class="btn-row">
+      <button class="word-btn" onclick="showExpl('s3','neng')">能 néng</button>
+      <button class="word-btn" onclick="showExpl('s3','xiang')">想 xiǎng</button>
+      <button class="word-btn" onclick="showExpl('s3','yao')">要 yào</button>
+    </div>
+    <div class="explanation expl-neng" id="s3-neng">你<b>能</b>喝水吗？— Ти <b>можеш</b> пити воду? (Питаю про фізичну можливість — після операції, наприклад.)</div>
+    <div class="explanation expl-xiang" id="s3-xiang">你<b>想</b>喝水吗？— Ти <b>хочеш</b> води? (Пропоную — ввічливе, м'яке запитання.)</div>
+    <div class="explanation expl-yao" id="s3-yao">你<b>要</b>喝水吗？— Тобі <b>взяти</b> води? (Теж пропозиція, трохи конкретніша — вже тягнуся за склянкою.)</div>
+  </div>
+
+  <hr class="divider">
+
+  <div class="ex-label">Вправа 2 — яке слово підходить?</div>
+  <p style="font-size:13px; color:var(--color-text-secondary); margin: 0 0 14px;">Прочитай речення і контекст. Вибери одне слово з банку і натисни на пропуск.</p>
+
+  <div style="display:flex; gap:8px; margin-bottom:16px; flex-wrap:wrap;" id="chip-bank">
+    <span class="word-chip" id="chip-neng1" onclick="selectChip('neng','chip-neng1')">能</span>
+    <span class="word-chip" id="chip-xiang1" onclick="selectChip('xiang','chip-xiang1')">想</span>
+    <span class="word-chip" id="chip-yao1" onclick="selectChip('yao','chip-yao1')">要</span>
+    <span class="word-chip" id="chip-neng2" onclick="selectChip('neng','chip-neng2')">能</span>
+    <span class="word-chip" id="chip-xiang2" onclick="selectChip('xiang','chip-xiang2')">想</span>
+    <span class="word-chip" id="chip-yao2" onclick="selectChip('yao','chip-yao2')">要</span>
+  </div>
+
+  <div class="sentence-block">
+    <div style="font-size:12px; color:var(--color-text-secondary); margin-bottom:6px;">Ти дивишся на меню в кафе і кажеш офіціанту:</div>
+    <div class="cn-row">
+      <span class="cn-text">我</span>
+      <span class="slot" id="slot-a" onclick="fillSlot('slot-a')">___</span>
+      <span class="cn-text">一杯茶。</span>
+    </div>
+    <div class="py-text">Wǒ ___ yī bēi chá.</div>
+    <button class="check-btn" onclick="checkSlot('slot-a','yao','result-a')">Перевірити</button>
+    <div class="result-msg" id="result-a"></div>
+  </div>
+
+  <div class="sentence-block">
+    <div style="font-size:12px; color:var(--color-text-secondary); margin-bottom:6px;">Друг питає, чи ти мрієш побувати в Японії. Відповідаєш:</div>
+    <div class="cn-row">
+      <span class="cn-text">我</span>
+      <span class="slot" id="slot-b" onclick="fillSlot('slot-b')">___</span>
+      <span class="cn-text">去日本！</span>
+    </div>
+    <div class="py-text">Wǒ ___ qù Rìběn!</div>
+    <button class="check-btn" onclick="checkSlot('slot-b','xiang','result-b')">Перевірити</button>
+    <div class="result-msg" id="result-b"></div>
+  </div>
+
+  <div class="sentence-block">
+    <div style="font-size:12px; color:var(--color-text-secondary); margin-bottom:6px;">Лікар питає пацієнта після операції на руці:</div>
+    <div class="cn-row">
+      <span class="cn-text">你</span>
+      <span class="slot" id="slot-c" onclick="fillSlot('slot-c')">___</span>
+      <span class="cn-text">写字吗？</span>
+    </div>
+    <div class="py-text">Nǐ ___ xiě zì ma?</div>
+    <button class="check-btn" onclick="checkSlot('slot-c','neng','result-c')">Перевірити</button>
+    <div class="result-msg" id="result-c"></div>
+  </div>
+
+</div>
+
+<script>
+  function showExpl(sent, word) {
+    ['neng','xiang','yao'].forEach(w => {
+      const el = document.getElementById(sent+'-'+w);
+      if(el) el.style.display = 'none';
+    });
+    document.getElementById(sent+'-'+word).style.display = 'block';
+    const btns = document.querySelectorAll('#'+sent+' .word-btn');
+    btns.forEach(b => { b.className = 'word-btn'; });
+    const idx = ['neng','xiang','yao'].indexOf(word);
+    btns[idx].className = 'word-btn selected-'+word;
+  }
+
+  let selectedWord = null;
+  let selectedChipId = null;
+  let slotWords = {};
+
+  function selectChip(word, chipId) {
+    if(document.getElementById(chipId).classList.contains('used')) return;
+    selectedWord = word;
+    selectedChipId = chipId;
+    document.querySelectorAll('.word-chip').forEach(c => c.style.outline = 'none');
+    const colors = {neng:'#185FA5', xiang:'#0F6E56', yao:'#993C1D'};
+    document.getElementById(chipId).style.outline = '2px solid ' + colors[word];
+  }
+
+  function fillSlot(slotId) {
+    if(!selectedWord) return;
+    const slot = document.getElementById(slotId);
+    const prev = slotWords[slotId];
+    if(prev && prev.chipId) {
+      document.getElementById(prev.chipId).classList.remove('used');
+      document.getElementById(prev.chipId).style.outline = 'none';
+    }
+    const chars = {neng:'能', xiang:'想', yao:'要'};
+    slot.textContent = chars[selectedWord];
+    slot.className = 'slot filled-'+selectedWord;
+    document.getElementById(selectedChipId).classList.add('used');
+    document.getElementById(selectedChipId).style.outline = 'none';
+    stateReset(slotId);
+    slotWords[slotId] = {word: selectedWord, chipId: selectedChipId};
+    selectedWord = null;
+    selectedChipId = null;
+  }
+
+  function stateReset(slotId) {
+    const map = {
+      'slot-a': 'result-a',
+      'slot-b': 'result-b',
+      'slot-c': 'result-c'
+    };
+    const r = document.getElementById(map[slotId]);
+    if(r) { r.style.display='none'; r.textContent=''; }
+  }
+
+  function checkSlot(slotId, correct, resultId) {
+    const placed = slotWords[slotId];
+    const r = document.getElementById(resultId);
+    if(!placed) {
+      r.className = 'result-msg result-err';
+      r.textContent = 'Спочатку вибери слово з банку і постав у пропуск.';
+      r.style.display = 'block';
+      return;
+    }
+    const feedback = {
+      'slot-a': {
+        yao: '要 — правильно! Замовлення в кафе — це конкретне рішення, тому 要.',
+        xiang: '想 тут теж зрозуміло, але звучить як "хочеться" — трохи м\'яко для замовлення офіціанту. Спробуй 要.',
+        neng: '能 — не підходить. Ніхто не сумнівається, чи фізично можливо тобі пити чай.'
+      },
+      'slot-b': {
+        xiang: '想 — правильно! Мрія, бажання поїхати — це внутрішній стан, саме для 想.',
+        yao: '要 звучить дуже рішуче — "їду до Японії!" Якщо квитки вже куплені — підійде. Але для мрії краще 想.',
+        neng: '能 — не підходить. Друг питає про бажання, не про можливість.'
+      },
+      'slot-c': {
+        neng: '能 — правильно! Лікар питає про фізичну можливість — чи функціонує рука. Саме 能.',
+        xiang: '想 — не підходить. Лікаря не цікавить, чи пацієнт хоче писати — важливо, чи може.',
+        yao: '要 — не підходить. Це не питання про намір, а про фізичну здатність після операції.'
+      }
+    };
+    const isCorrect = placed.word === correct;
+    r.className = 'result-msg ' + (isCorrect ? 'result-ok' : 'result-err');
+    r.textContent = feedback[slotId][placed.word];
+    r.style.display = 'block';
+  }
+</script>
